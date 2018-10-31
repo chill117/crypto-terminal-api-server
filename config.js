@@ -22,6 +22,29 @@ var config = module.exports = {
 		transformer: 'websockets',
 		pingInterval: 5000,
 	},
+	bitcoindRpc: process.env.CT_API_SERVER_BITCOIND_RPC ? JSON.parse(process.env.CT_API_SERVER_BITCOIND_RPC) : {
+		// bitcoin: [
+		// 	{
+		// 		uri: 'http://localhost:8332',
+		// 		username: 'example',
+		// 		password: '12345',
+		// 	},
+		// ],
+		// bitcoinTestnet: [
+		// 	{
+		// 		uri: 'http://localhost:8332',
+		// 		username: 'example',
+		// 		password: '12345',
+		// 	},
+		// ],
+		// litecoin: [
+		// 	{
+		// 		uri: 'http://localhost:8332',
+		// 		username: 'example',
+		// 		password: '12345',
+		// 	},
+		// ],
+	},
 	electrum: process.env.CT_API_SERVER_ELECTRUM ? JSON.parse(process.env.CT_API_SERVER_ELECTRUM) : {
 		// bitcoinTestnet: {
 		// 	uri: 'http://localhost:8332',

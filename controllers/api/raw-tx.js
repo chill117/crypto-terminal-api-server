@@ -17,7 +17,7 @@ module.exports = function(app) {
 			});
 
 			var network = req.body.network;
-			if (!app.services.electrum.isSupportedNetwork(network)) {
+			if (!app.services.bitcoindRpc.isSupportedNetwork(network)) {
 				throw new Error('Unsupported network: "' + network + '"');
 			}
 
@@ -28,11 +28,12 @@ module.exports = function(app) {
 			return next(error);
 		}
 
-		app.services.electrum.cmd(network, 'broadcast', [rawTx], function(error, result) {
+		app.services.bitcoindRpc.cmd(network, 'sendrawtransaction', [rawTx], function(error, result) {
 			if (error) return next(error);
 			var txid = result && result[0] === true && result[1] || null;
 			if (!txid) {
-				return next(new Error('Unexpected result from Electrum.broadcast method'));
+				app.log('Failed to broadcast transaction:', result);
+				return next(new Error('Failed to broadcast transaction'));
 			}
 			res.status(200).json({ txid: txid });
 		});

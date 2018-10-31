@@ -27,8 +27,18 @@ module.exports = function(app) {
 
 		prepareInstances: function() {
 
+			/*
+				Communicate with an electrum daemon via RPC. See:
+				http://docs.electrum.org/en/latest/protocol.html
+			*/
 			this.instances = _.mapObject(app.config.electrum, function(options, network) {
-				return new app.lib.Electrum(options);
+				options = _.extend({}, options || {}, {
+					whiteListCommands: [
+						'getfeerate',
+						'getaddressunspent',
+					],
+				});
+				return new app.lib.RpcClient(options);
 			});
 		},
 	};
